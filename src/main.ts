@@ -3,11 +3,35 @@ dotenv.config();
 
 import express, {NextFunction, Request, Response} from 'express';
 import mongoose from 'mongoose';
+import {
+  newPostRouter,
+  getPostRouter,
+  getAllPostsRouter,
+  updatePostRouter,
+  deletePostRouter,
+  newCommentRouter,
+  deleteCommentRouter
+} from './routes'
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use(newPostRouter);
+app.use(getPostRouter);
+app.use(getAllPostsRouter);
+app.use(updatePostRouter);
+app.use(deletePostRouter);
+
+app.use(newCommentRouter);
+app.use(deleteCommentRouter);
+
+app.all('*', (req: Request, res: Response, next: NextFunction) => {
+  const error = new Error('not Found') as CustomError;
+  error.status = 404;
+  next(error);
+})
 
 declare global {
   interface CustomError extends Error {
