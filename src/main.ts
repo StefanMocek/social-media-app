@@ -3,6 +3,7 @@ dotenv.config();
 
 import express, {NextFunction, Request, Response} from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import {
   newPostRouter,
   getPostRouter,
@@ -11,10 +12,13 @@ import {
   deletePostRouter,
   newCommentRouter,
   deleteCommentRouter
-} from './routes'
+} from './routes';
 
 const app = express();
 
+app.use(cors({
+  optionsSuccessStatus: 200
+}))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
