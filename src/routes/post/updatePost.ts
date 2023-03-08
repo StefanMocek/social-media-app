@@ -3,12 +3,12 @@ import Post from 'src/models/post.model';
 
 const router = Router();
 
-router.post('/api/post/update/:id', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/api/post/:id', async (req: Request, res: Response, next: NextFunction) => {
   const { id } = req.params;
   const {title, content} = req.body;
 
   if(!id){
-    const error = new Error('post id is require') as CustomError;
+    const error = new Error('post id is required') as CustomError;
     error.status = 400;
     return next(error);
   };
