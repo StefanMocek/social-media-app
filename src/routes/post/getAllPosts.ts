@@ -4,7 +4,7 @@ import Post from '../../models/post.model';
 const router = Router();
 
 router.get('/api/post', async (req: Request, res: Response, next: NextFunction) => {
-  const posts = await Post.find()
+  const posts = await Post.find().populate('comments')
   res.status(200).json(posts);
 })
 
