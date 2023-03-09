@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import Comment from '../../models/comment.model';
 import Post from '../../models/post.model';
-
+import { BadRequestError } from '../../../common';
 
 const router = Router();
 
@@ -10,9 +10,7 @@ router.post('/api/comment/:postId', async (req: Request, res: Response, next: Ne
   const {postId} = req.params
 
   if(!content){
-    const error = new Error('title and content are required') as CustomError;
-    error.status = 400;
-    return next(error);
+    return next(new BadRequestError('title and content are required'));
   };
 
   const newComment = new Comment({
@@ -31,9 +29,7 @@ router.post('/api/comment/:postId', async (req: Request, res: Response, next: Ne
       { new: true}
     )
   } catch (err) {
-    const error = new Error('cannot add this comment to this post') as CustomError;
-    error.status = 400;
-    return next(error);
+    return next(new Error('cannot add this comment to this post'))
   };
 
   res.status(201).json(updatedPost)
