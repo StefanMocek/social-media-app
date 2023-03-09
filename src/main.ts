@@ -14,6 +14,7 @@ import {
   newCommentRouter,
   deleteCommentRouter
 } from './routes';
+import {currentUser, requireAuth} from '../common';
 
 const app = express();
 
@@ -29,14 +30,16 @@ app.use(cookieSession({
   secure: false
 }))
 
-app.use(newPostRouter);
+app.use(currentUser);
+
+app.use(requireAuth, newPostRouter);
 app.use(getPostRouter);
 app.use(getAllPostsRouter);
-app.use(updatePostRouter);
-app.use(deletePostRouter);
+app.use(requireAuth, updatePostRouter);
+app.use(requireAuth, deletePostRouter);
 
-app.use(newCommentRouter);
-app.use(deleteCommentRouter);
+app.use(requireAuth, newCommentRouter);
+app.use(requireAuth, deleteCommentRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   const error = new Error('not Found') as CustomError;
