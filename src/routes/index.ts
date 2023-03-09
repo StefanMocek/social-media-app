@@ -6,3 +6,7 @@ export * from './post/deletePost';
 
 export * from './comment/newComment';
 export * from './comment/deleteComment';
+
+export * from './auth/currentUser';
+export * from './auth/signin';
+export * from './auth/signup';
