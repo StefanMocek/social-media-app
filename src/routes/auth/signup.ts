@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response, Router } from 'express';
-import User from '../../models/user.model';
 import jwt from 'jsonwebtoken';
+import User from '../../models/user.model';
+import { BadRequestError } from '../../../common';
 
 const router = Router();
 
@@ -10,7 +11,7 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
   const user = await User.findOne({email});
 
   if(user){
-    return next(new Error('user with the same email already exist'))
+    return next(new BadRequestError('user with the same email already exist'))
   };
 
   const newUser = new User({

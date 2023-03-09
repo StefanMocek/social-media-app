@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response, Router } from 'express';
 import User from '../../models/user.model';
-import { authenticationService } from '../../../common';
+import { authenticationService, BadRequestError } from '../../../common';
 import jwt from 'jsonwebtoken';
 
 const router = Router();
@@ -10,13 +10,13 @@ router.post('/signup', async (req: Request, res: Response, next: NextFunction) =
 
   const user = await User.findOne({email});
   if(!user) {
-    return next(new Error('wrong credentials'))
+    return next(new BadRequestError('wrong credentials'))
   };
 
   const isEqual = await authenticationService.pwdCompare(user.password, password);
 
   if(!isEqual) {
-    return next(new Error('wrong credentials'));
+    return next(new BadRequestError('wrong credentials'));
   };
 
   const token = jwt.sign({email, userId: user._id}, process.env.JWT_KEY!, { expiresIn: '10h' });

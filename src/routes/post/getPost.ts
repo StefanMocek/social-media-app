@@ -11,9 +11,7 @@ router.get('/api/post/:id', async (req: Request, res: Response, next: NextFuncti
   try {
     post = await Post.findOne({_id: id}).populate('comments')
   } catch (err) {
-    const error = new Error('cannot find the post') as CustomError;
-    error.status = 400;
-    return next(error);
+    return next(new Error('cannot find the post'));
   };
 
   res.status(200).json(post);
