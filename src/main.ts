@@ -12,7 +12,10 @@ import {
   updatePostRouter,
   deletePostRouter,
   newCommentRouter,
-  deleteCommentRouter
+  deleteCommentRouter,
+  signinRouter,
+  signupRouter,
+  signOutRouter
 } from './routes';
 import {currentUser, requireAuth} from '../common';
 
@@ -30,6 +33,11 @@ app.use(cookieSession({
   secure: false
 }))
 
+app.use(currentUser);
+
+app.use(signinRouter);
+app.use(signupRouter);
+app.use(signOutRouter);
 app.use(currentUser);
 
 app.use(requireAuth, newPostRouter);

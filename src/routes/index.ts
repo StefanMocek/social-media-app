@@ -10,3 +10,4 @@ export * from './comment/deleteComment';
 export * from './auth/currentUser';
 export * from './auth/signin';
 export * from './auth/signup';
+export * from './auth/signOut';
