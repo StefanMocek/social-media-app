@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import {authenticationService} from '../../common';
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -25,7 +26,12 @@ const userSchema = new mongoose.Schema({
 });
 
 userSchema.pre('save', async function(done) {
+  if (this.isModified('password') || this.isNew) {
+    const hashPwd = authenticationService.pwdToHash(this.get('password'));
+    this.set('password', hashPwd);
+  };
 
+  done();
 })
 
 const User = mongoose.model('User', userSchema);
