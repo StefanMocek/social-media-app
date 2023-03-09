@@ -4,6 +4,7 @@ dotenv.config();
 import express, {NextFunction, Request, Response} from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
+import cookieSession from 'cookie-session';
 import {
   newPostRouter,
   getPostRouter,
@@ -13,23 +14,32 @@ import {
   newCommentRouter,
   deleteCommentRouter
 } from './routes';
+import {currentUser, requireAuth} from '../common';
 
 const app = express();
+
+app.set('trust proxy', true);
 
 app.use(cors({
   optionsSuccessStatus: 200
 }))
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieSession({
+  signed: false,
+  secure: false
+}))
 
-app.use(newPostRouter);
+app.use(currentUser);
+
+app.use(requireAuth, newPostRouter);
 app.use(getPostRouter);
 app.use(getAllPostsRouter);
-app.use(updatePostRouter);
-app.use(deletePostRouter);
+app.use(requireAuth, updatePostRouter);
+app.use(requireAuth, deletePostRouter);
 
-app.use(newCommentRouter);
-app.use(deleteCommentRouter);
+app.use(requireAuth, newCommentRouter);
+app.use(requireAuth, deleteCommentRouter);
 
 app.all('*', (req: Request, res: Response, next: NextFunction) => {
   const error = new Error('not Found') as CustomError;
@@ -56,7 +66,11 @@ const PORT = process.env.PORT || 8080;
 const start = async () => {
   if (!process.env.MONGO_URL) {
     throw new Error('MONGO_URL is require')
-  }
+  };
+  if (!process.env.JWT_KEY) {
+    throw new Error('JWT_KEY is require')
+  };
+
   try {
     await mongoose.connect(process.env.MONGO_URL)
   } catch (error) {
