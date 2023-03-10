@@ -13,7 +13,7 @@ router.post('/api/comment/:postId', async (req: Request, res: Response, next: Ne
     return next(new BadRequestError('title and content are required'));
   };
 
-  const newComment = new Comment({
+  const newComment = Comment.build({
     userName: userName ? userName : 'anonymous', 
     content
   });
