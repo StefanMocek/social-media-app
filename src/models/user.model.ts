@@ -6,6 +6,7 @@ export interface UserDoc extends mongoose.Document {
   password: string,
   posts?: Array<any>
 };
+
 export interface CreateUserDto { 
   email: string,
   password: string,
