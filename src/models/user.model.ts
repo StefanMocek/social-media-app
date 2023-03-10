@@ -1,6 +1,20 @@
 import mongoose from 'mongoose';
 import {authenticationService} from '../../common';
 
+export interface UserDoc extends mongoose.Document { 
+  email: string,
+  password: string,
+  posts?: Array<any>
+};
+export interface CreateUserDto { 
+  email: string,
+  password: string,
+};
+
+export interface UserModel extends mongoose.Model<UserDoc> {
+  build(dto: CreateUserDto): UserDoc
+};
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -32,8 +46,12 @@ userSchema.pre('save', async function(done) {
   };
 
   done();
-})
+});
 
-const User = mongoose.model('User', userSchema);
+userSchema.statics.biuld = (createUserDto: CreateUserDto) => {
+  return new User(createUserDto)
+};
+
+const User = mongoose.model<UserDoc,UserModel>('User', userSchema);
 
 export default User;
