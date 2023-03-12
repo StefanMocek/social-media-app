@@ -11,8 +11,13 @@ import {
   getAllPostsRouter,
   updatePostRouter,
   deletePostRouter,
+
+  addImagesRouter,
+  deleteImagesRouter,
+
   newCommentRouter,
   deleteCommentRouter,
+
   signinRouter,
   signupRouter,
   signOutRouter
@@ -45,6 +50,8 @@ app.use(getPostRouter);
 app.use(getAllPostsRouter);
 app.use(requireAuth, updatePostRouter);
 app.use(requireAuth, deletePostRouter);
+app.use(requireAuth, addImagesRouter);
+app.use(requireAuth, deleteImagesRouter);
 
 app.use(requireAuth, newCommentRouter);
 app.use(requireAuth, deleteCommentRouter);
