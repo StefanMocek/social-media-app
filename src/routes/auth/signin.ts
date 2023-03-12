@@ -1,11 +1,11 @@
 import { NextFunction, Request, Response, Router } from 'express';
+import jwt from 'jsonwebtoken';
 import User from '../../models/user.model';
 import { authenticationService, BadRequestError } from '../../../common';
-import jwt from 'jsonwebtoken';
 
 const router = Router();
 
-router.post('/signup', async (req: Request, res: Response, next: NextFunction) => {
+router.post('/signin', async (req: Request, res: Response, next: NextFunction) => {
   const {email, password} = req.body;
 
   const user = await User.findOne({email});
