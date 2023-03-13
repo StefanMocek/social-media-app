@@ -44,7 +44,7 @@ const postSchema = new mongoose.Schema({
   ]
 });
 
-postSchema.statics.biuld = (createPostDto: CreatePostDto) => {
+postSchema.statics.build = (createPostDto: CreatePostDto) => {
   return new Post(createPostDto)
 };
 

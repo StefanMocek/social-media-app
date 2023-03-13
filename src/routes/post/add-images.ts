@@ -32,6 +32,6 @@ router.post('/api/post/:id/add/images',uploadImages, async (req: Request, res: R
     {new: true}
     );
   res.status(200).send(post);
-})
+});
 
 export {router as addImagesRouter}

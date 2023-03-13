@@ -25,7 +25,7 @@ const commentSchema = new mongoose.Schema({
   },
 });
 
-commentSchema.statics.biuld = (createCommentDto: CreateCommentDto) => {
+commentSchema.statics.build = (createCommentDto: CreateCommentDto) => {
   return new Comment(createCommentDto)
 };
 
