@@ -50,7 +50,7 @@ userSchema.pre('save', async function(done) {
   done();
 });
 
-userSchema.statics.biuld = (createUserDto: CreateUserDto) => {
+userSchema.statics.build = (createUserDto: CreateUserDto) => {
   return new User(createUserDto)
 };
 
